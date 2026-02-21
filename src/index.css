@@ -1,0 +1,162 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-masthead: "Pirata One", system-ui;
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-paper: #FFFFFF;
+  --color-ink: #1A1A1A;
+  --color-secondary: #555555;
+  --color-digital-blue: #2E5A88;
+  --color-press-red: #B22222;
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  5% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  95% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 10s ease-in-out infinite;
+}
+
+
+@layer base {
+  body {
+    @apply bg-paper dark:bg-[#121212] text-ink dark:text-gray-200 selection:bg-digital-blue selection:text-white transition-colors duration-500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif uppercase tracking-tight;
+  }
+
+  hr {
+    @apply border-ink/30 my-4;
+  }
+}
+
+@layer components {
+  .newspaper-border {
+    @apply border-ink/20;
+  }
+
+  .column-rule {
+    @apply relative after:content-[''] after:absolute after:top-0 after:bottom-0 after:right-0 after:w-px after:bg-ink/10;
+  }
+
+  .btn-link {
+    @apply text-digital-blue underline hover:text-ink transition-colors cursor-pointer inline-block;
+  }
+}
+
+/* Sticky Header Logic */
+.sticky-header {
+  @apply fixed top-0 left-0 right-0 z-50 bg-paper/95 dark:bg-[#121212]/95 backdrop-blur-sm border-b-2 border-ink dark:border-gray-800 transition-all duration-300;
+}
+
+.sticky-header-shrunk {
+  @apply py-2;
+}
+
+.dropdown-menu {
+  @apply absolute top-full left-0 bg-paper dark:bg-[#1A1A1A] border border-ink/10 dark:border-gray-800 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 min-w-[200px] py-4;
+}
+
+.dropdown-item {
+  @apply px-6 py-2 text-xs font-bold uppercase tracking-widest hover:text-digital-blue transition-colors block whitespace-nowrap;
+}
+
+/* Custom newspaper styling */
+.masthead-title {
+  font-family: var(--font-masthead);
+  font-size: clamp(3rem, 10vw, 8rem);
+  text-transform: none;
+}
+
+.ticker-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.ticker-content {
+  display: inline-block;
+  padding-left: 100%;
+  animation: ticker 30s linear infinite;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(-100%, 0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fade-in;
+}
+
+.slide-in-from-left {
+  animation-name: slide-in-from-left;
+}
+
+.duration-1000 {
+  animation-duration: 1000ms;
+}
+
+.duration-300 {
+  animation-duration: 300ms;
+}
