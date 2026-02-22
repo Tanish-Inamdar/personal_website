@@ -9,6 +9,16 @@ const Projects: React.FC = () => {
     const location = useLocation();
 
     useEffect(() => {
+        const body = document.body;
+        if (selectedImage) {
+            body.style.overflow = 'hidden';
+        } else {
+            body.style.overflow = 'auto';
+        }
+        return () => { body.style.overflow = 'auto'; };
+    }, [selectedImage]);
+
+    useEffect(() => {
         if (location.hash) {
             const id = location.hash.replace('#', '');
             const el = document.getElementById(id);
@@ -134,8 +144,8 @@ const Projects: React.FC = () => {
 
                     {/* MAIN PROJECTS CONTENT */}
                     <section className="lg:col-span-3 space-y-16 text-left">
-                        <div className="border-b border-black dark:border-gray-700 pb-2 mb-8 flex justify-between items-end">
-                            <h2 className="text-4xl font-bold uppercase tracking-tighter dark:text-gray-100">Project Archives</h2>
+                        <div className="border-b border-black dark:border-gray-700 pb-2 mb-8 flex flex-col md:flex-row justify-between md:items-end gap-2 md:gap-0">
+                            <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tighter dark:text-gray-100">Project Archives</h2>
                             <span className="text-xs italic font-sans font-bold dark:text-gray-400">VOL. CXIV — TECHNOLOGY SECTION</span>
                         </div>
 
@@ -160,17 +170,17 @@ const Projects: React.FC = () => {
                                                     rel="noopener noreferrer"
                                                     className="hover:underline decoration-black dark:decoration-gray-400"
                                                 >
-                                                    <h3 className="text-3xl font-black uppercase tracking-tighter leading-none mb-2 dark:text-gray-100">{project.title}</h3>
+                                                    <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter leading-none mb-2 dark:text-gray-100">{project.title}</h3>
                                                 </a>
                                             ) : project.title === "Multi-Platform Delivery Arbitrage" ? (
                                                 <Link
                                                     to="/wip"
                                                     className="hover:underline decoration-digital-blue dark:decoration-blue-400"
                                                 >
-                                                    <h3 className="text-3xl font-black uppercase tracking-tighter leading-none mb-2 dark:text-gray-100">{project.title}</h3>
+                                                    <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter leading-none mb-2 dark:text-gray-100">{project.title}</h3>
                                                 </Link>
                                             ) : (
-                                                <h3 className="text-3xl font-black uppercase tracking-tighter leading-none mb-2 dark:text-gray-100">{project.title}</h3>
+                                                <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter leading-none mb-2 dark:text-gray-100">{project.title}</h3>
                                             )}
                                             <div className="flex gap-2">
                                                 <span className="text-[10px] font-sans font-black bg-black dark:bg-gray-800 text-white dark:text-gray-300 px-2 py-0.5 uppercase tracking-widest">{project.stack}</span>
@@ -210,7 +220,7 @@ const Projects: React.FC = () => {
                                                     <img
                                                         src={img.url}
                                                         alt={img.caption}
-                                                        className="w-full h-auto object-cover transition-transform duration-700 group-hover/img:scale-105"
+                                                        className="w-full h-auto object-cover transition-transform duration-700 md:group-hover/img:scale-105"
                                                     />
                                                     <div className="mt-2 text-[9px] font-black uppercase flex justify-between items-center px-1 dark:text-gray-400">
                                                         <span className="opacity-40">EXHIBIT {index + 1}.{i + 1}</span>

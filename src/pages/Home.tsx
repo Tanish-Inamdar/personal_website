@@ -14,11 +14,22 @@ const Article: React.FC<{
     dropCap?: boolean;
     link?: string;
 }> = ({ title, subtitle, author, content, image, className = "", vertical = false, dropCap = true, link }) => {
+    const [isExpanded, setIsExpanded] = React.useState(false);
     const contents = Array.isArray(content) ? content : [content];
+
+    React.useEffect(() => {
+        const body = document.body;
+        if (isExpanded) {
+            body.style.overflow = 'hidden';
+        } else {
+            body.style.overflow = 'auto';
+        }
+        return () => { body.style.overflow = 'auto'; };
+    }, [isExpanded]);
 
     return (
         <article className={`${className} ${vertical ? 'flex flex-col' : ''} border-b border-ink/10 dark:border-gray-800 pb-10 mb-10 last:border-0`}>
-            <h3 className={`font-serif leading-none mb-4 hover:text-digital-blue transition-colors cursor-pointer dark:text-gray-100 ${className.includes('hero') ? 'text-4xl md:text-5xl lg:text-7xl font-black' : 'text-2xl md:text-3xl font-black'}`}>
+            <h3 className={`font-serif leading-none mb-4 md:hover:text-digital-blue transition-colors cursor-pointer dark:text-gray-100 ${className.includes('hero') ? 'text-3xl md:text-5xl lg:text-7xl font-black' : 'text-2xl md:text-3xl font-black'}`}>
                 {link ? (
                     <a href={link} target="_blank" rel="noopener noreferrer" className="hover:underline decoration-black dark:decoration-gray-100">
                         {title}
@@ -51,16 +62,41 @@ const Article: React.FC<{
                     </div>
                 </div>
             </div>
+
+            {isExpanded && image && (
+                <div
+                    className="fixed inset-0 z-[1000] bg-black/95 flex items-center justify-center p-4 md:p-10 cursor-zoom-out animate-in fade-in duration-300"
+                    onClick={() => setIsExpanded(false)}
+                >
+                    <div className="relative max-w-5xl w-full flex flex-col gap-4 text-left" onClick={e => e.stopPropagation()}>
+                        <img
+                            src={image}
+                            alt={title}
+                            className="w-full h-auto max-h-[80vh] object-contain border border-white/20 shadow-2xl"
+                        />
+                        <div className="bg-white dark:bg-[#262626] p-6 font-sans border-l-[12px] border-black dark:border-gray-700 text-left">
+                            <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-2 text-gray-500 dark:text-gray-400">Lead Story // High Resolution View</p>
+                            <h4 className="text-2xl font-black uppercase tracking-tighter dark:text-gray-100">{title}</h4>
+                        </div>
+                        <button
+                            className="absolute -top-12 right-0 text-white text-4xl md:hover:text-gray-400 transition-colors"
+                            onClick={() => setIsExpanded(false)}
+                        >
+                            &times;
+                        </button>
+                    </div>
+                </div>
+            )}
         </article>
     );
 };
 
 const SectionHeader: React.FC<{ title: string }> = ({ title }) => (
-    <div className="border-y-2 border-ink dark:border-gray-700 py-2.5 my-14 text-center bg-paper dark:bg-[#121212] relative">
+    <div className="border-y-2 border-ink dark:border-gray-700 py-2.5 my-14 text-center bg-paper dark:bg-[#121212] relative w-full overflow-hidden">
         <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-ink dark:border-gray-800 opacity-10"></div>
         </div>
-        <h2 className="relative inline-block px-10 bg-paper dark:bg-[#121212] text-3xl font-black tracking-[0.5em] leading-none uppercase italic dark:text-gray-100">
+        <h2 className="relative inline-block px-10 bg-paper dark:bg-[#121212] text-2xl md:text-3xl font-black tracking-[0.5em] leading-none uppercase italic dark:text-gray-100">
             {title}
         </h2>
     </div>
@@ -218,7 +254,7 @@ const Home: React.FC = () => {
                             <div className="relative group mb-6">
                                 <img src={SITE_CONFIG.bio.image} alt="Tanish" className="w-full border-2 border-ink dark:border-gray-700 p-1 bg-paper dark:bg-[#1A1A1A] shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] dark:shadow-[8px_8px_0px_0px_rgba(64,64,64,1)]" />
                             </div>
-                            <h3 className="font-serif font-black text-5xl leading-tight mb-2 tracking-tighter dark:text-gray-100 text-left">
+                            <h3 className="font-serif font-black text-4xl md:text-5xl leading-tight mb-2 tracking-tighter dark:text-gray-100 text-left">
                                 {SITE_CONFIG.bio.name}
                             </h3>
                             <p className="text-sm font-black uppercase tracking-[0.3em] text-digital-blue italic mb-6">
@@ -288,10 +324,10 @@ const Home: React.FC = () => {
                 </div>
 
                 {/* Footer */}
-                <footer className="border-t-[16px] border-ink dark:border-gray-800 pt-16 pb-32 mt-20 text-left transition-colors duration-500">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-16 text-left">
-                        <div className="space-y-6 text-left">
-                            <h2 className="masthead-title text-7xl md:text-9xl block leading-none select-none text-left text-ink dark:text-gray-100">{SITE_CONFIG.masthead.title}</h2>
+                <footer className="border-t-[16px] border-ink dark:border-gray-800 pt-16 pb-32 mt-20 text-left transition-colors duration-500 w-full overflow-hidden">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-16 text-left w-full">
+                        <div className="space-y-6 text-left w-full">
+                            <h2 className="font-[Pirata_One] text-6xl break-words md:text-9xl block leading-none select-none text-left text-ink dark:text-gray-100">{SITE_CONFIG.masthead.title}</h2>
                             <div className="flex gap-4 text-left">
                                 <p className="text-[10px] font-black uppercase tracking-widest text-secondary dark:text-gray-500 italic text-left">EST. 2026 — ILLINOIS — GLOBAL SYNDICATION</p>
                             </div>

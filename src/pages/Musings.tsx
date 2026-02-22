@@ -6,6 +6,16 @@ import '../components/homepages.css';
 const Musings: React.FC = () => {
     const [selectedImage, setSelectedImage] = useState<{ url: string, caption: string } | null>(null);
 
+    React.useEffect(() => {
+        const body = document.body;
+        if (selectedImage) {
+            body.style.overflow = 'hidden';
+        } else {
+            body.style.overflow = 'auto';
+        }
+        return () => { body.style.overflow = 'auto'; };
+    }, [selectedImage]);
+
     const topMovies = [
         { title: "The Pianist", img: "https://a.ltrbxd.com/resized/film-poster/5/1/6/7/2/51672-the-pianist-0-2000-0-3000-crop.jpg?v=3eee5ac018", caption: "Polanski's masterpiece." },
         { title: "Airplane!", img: "https://a.ltrbxd.com/resized/film-poster/5/1/3/3/9/51339-airplane--0-2000-0-3000-crop.jpg?v=a8e9ea3a39", caption: "Shirley you can't be serious." },
@@ -79,7 +89,7 @@ const Musings: React.FC = () => {
                                 <img
                                     src="https://th.bing.com/th/id/OIP.yR2P6yQWDx9bLej_zvLX-gHaHa?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3"
                                     alt="Pinkerton Deluxe Edition"
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    className="w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     <p className="text-white font-sans font-black uppercase text-[10px] tracking-widest">Pinkerton Deluxe Edition</p>
@@ -97,7 +107,7 @@ const Musings: React.FC = () => {
                                         <span className="text-[9px] font-black uppercase tracking-tighter dark:text-gray-500">Feline</span>
                                     </div>
                                     <div className="aspect-square border border-black dark:border-gray-700 bg-white dark:bg-[#262626] overflow-hidden cursor-zoom-in group" onClick={() => setSelectedImage(petPhotos[0])}>
-                                        <img src={petPhotos[0].url} className="object-cover w-full h-full group-hover:scale-125 transition-transform duration-1000 opacity-90 dark:opacity-70" alt="Cat" />
+                                        <img src={petPhotos[0].url} className="object-cover w-full h-full md:group-hover:scale-125 transition-transform duration-1000 opacity-90 dark:opacity-70" alt="Cat" />
                                     </div>
                                 </div>
                                 <div key="dog">
@@ -106,7 +116,7 @@ const Musings: React.FC = () => {
                                         <span className="text-[9px] font-black uppercase tracking-tighter dark:text-gray-500">Poodle</span>
                                     </div>
                                     <div className="aspect-square border border-black dark:border-gray-700 bg-white dark:bg-[#262626] overflow-hidden cursor-zoom-in group" onClick={() => setSelectedImage(petPhotos[1])}>
-                                        <img src={petPhotos[1].url} className="object-cover w-full h-full group-hover:scale-125 transition-transform duration-1000" alt="Poodle" />
+                                        <img src={petPhotos[1].url} className="object-cover w-full h-full md:group-hover:scale-125 transition-transform duration-1000" alt="Poodle" />
                                     </div>
                                 </div>
                             </div>
@@ -116,8 +126,8 @@ const Musings: React.FC = () => {
 
                     {/* CENTER STAGE - FILM & TV */}
                     <section className="lg:col-span-2 space-y-12 px-0 lg:px-4 text-left">
-                        <div className="border-b border-black dark:border-gray-700 pb-2 flex justify-between items-end">
-                            <h2 className="text-4xl font-black uppercase tracking-tighter leading-none dark:text-gray-100">Film & TV Reviews</h2>
+                        <div className="border-b border-black dark:border-gray-700 pb-2 flex flex-col md:flex-row justify-between md:items-end gap-2 md:gap-0">
+                            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter leading-none dark:text-gray-100">Film & TV Reviews</h2>
                             <div className="flex items-center gap-2 text-xs font-sans font-bold uppercase tracking-widest dark:text-gray-400">
                                 <Film size={14} />
                                 Letterboxd Top 4
@@ -128,7 +138,7 @@ const Musings: React.FC = () => {
                             {topMovies.map((movie, i) => (
                                 <div
                                     key={i}
-                                    className="group border border-black dark:border-gray-700 p-1 bg-white dark:bg-[#262626] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(64,64,64,1)] transition-all cursor-zoom-in"
+                                    className="group border border-black dark:border-gray-700 p-1 bg-white dark:bg-[#262626] md:hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:md:hover:shadow-[4px_4px_0px_0px_rgba(64,64,64,1)] transition-all cursor-zoom-in"
                                     onClick={() => setSelectedImage({ url: movie.img, caption: movie.title })}
                                 >
                                     <img src={movie.img} alt={movie.title} className="w-full h-auto aspect-[2/3] object-cover opacity-90 dark:opacity-80" />
@@ -141,13 +151,13 @@ const Musings: React.FC = () => {
                             <article>
                                 <div className="flex items-center gap-2 mb-2">
                                     <Tv size={16} className="dark:text-gray-400" />
-                                    <h3 className="text-2xl font-black uppercase tracking-tighter dark:text-gray-100">Arrested Development</h3>
+                                    <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter dark:text-gray-100">Arrested Development</h3>
                                 </div>
                                 <div
                                     className="w-full h-48 bg-gray-200 dark:bg-[#1A1A1A] border border-black dark:border-gray-700 mb-2 overflow-hidden cursor-zoom-in group"
                                     onClick={() => setSelectedImage({ url: "https://static1.srcdn.com/wordpress/wp-content/uploads/2019/04/Arrested-Development.jpg", caption: "The Bluth Family" })}
                                 >
-                                    <img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2019/04/Arrested-Development.jpg" className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 opacity-90 dark:opacity-75" alt="AD" />
+                                    <img src="https://static1.srcdn.com/wordpress/wp-content/uploads/2019/04/Arrested-Development.jpg" className="object-cover w-full h-full md:group-hover:scale-105 transition-transform duration-700 opacity-90 dark:opacity-75" alt="AD" />
                                 </div>
                                 <p className="text-sm font-sans italic dark:text-gray-400">“I’ve made a huge mistake.”</p>
                             </article>
@@ -155,13 +165,13 @@ const Musings: React.FC = () => {
                             <article>
                                 <div className="flex items-center gap-2 mb-2">
                                     <Tv size={16} className="dark:text-gray-400" />
-                                    <h3 className="text-2xl font-black uppercase tracking-tighter dark:text-gray-100">It's Always Sunny</h3>
+                                    <h3 className="text-xl md:text-2xl font-black uppercase tracking-tighter dark:text-gray-100">It's Always Sunny</h3>
                                 </div>
                                 <div
                                     className="w-full h-48 bg-gray-200 dark:bg-[#1A1A1A] border border-black dark:border-gray-700 mb-2 overflow-hidden cursor-zoom-in group"
                                     onClick={() => setSelectedImage({ url: "https://images8.alphacoders.com/679/679547.jpg", caption: "Paddy's Pub Crew" })}
                                 >
-                                    <img src="https://images8.alphacoders.com/679/679547.jpg" className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 opacity-90 dark:opacity-75" alt="Sunny" />
+                                    <img src="https://images8.alphacoders.com/679/679547.jpg" className="object-cover w-full h-full md:group-hover:scale-105 transition-transform duration-700 opacity-90 dark:opacity-75" alt="Sunny" />
                                 </div>
                                 <p className="text-sm font-sans italic dark:text-gray-400">"What's your favorite hobby? Magnets."</p>
                             </article>
@@ -204,7 +214,7 @@ const Musings: React.FC = () => {
                                         className="border border-black dark:border-gray-700 p-1 cursor-zoom-in group overflow-hidden bg-white dark:bg-[#262626]"
                                         onClick={() => setSelectedImage(photo)}
                                     >
-                                        <img src={photo.url} className="w-full h-auto group-hover:scale-110 transition-transform duration-700 opacity-90 dark:opacity-75" alt="Hiking" />
+                                        <img src={photo.url} className="w-full h-auto md:group-hover:scale-110 transition-transform duration-700 opacity-90 dark:opacity-75" alt="Hiking" />
                                         <div className="mt-1 text-[8px] font-sans font-black uppercase opacity-60 dark:text-gray-400 flex justify-between">
                                             <span>MUSE {i + 1}</span>
                                             <span>LOC: ARIZONA</span>

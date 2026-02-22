@@ -5,6 +5,16 @@ import '../components/homepages.css';
 const Experiences: React.FC = () => {
     const [selectedImage, setSelectedImage] = React.useState<{ url: string, caption: string } | null>(null);
 
+    React.useEffect(() => {
+        const body = document.body;
+        if (selectedImage) {
+            body.style.overflow = 'hidden';
+        } else {
+            body.style.overflow = 'auto';
+        }
+        return () => { body.style.overflow = 'auto'; };
+    }, [selectedImage]);
+
     const workHistory = [
         {
             company: "Digital Precision Agriculture Lab, UIUC",
@@ -99,7 +109,7 @@ const Experiences: React.FC = () => {
                     {/* MAIN LIST CONTENT */}
                     <section className="lg:col-span-3 space-y-12 text-left">
                         <div className="border-b border-black dark:border-gray-700 pb-2 mb-8">
-                            <h2 className="text-4xl font-bold uppercase tracking-tighter dark:text-gray-100">Professional Dossier</h2>
+                            <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-tighter dark:text-gray-100">Professional Dossier</h2>
                         </div>
 
                         {workHistory.map((job, index) => (
@@ -114,12 +124,12 @@ const Experiences: React.FC = () => {
 
                                     {/* JOB DETAILS */}
                                     <div className="flex-grow">
-                                        <div className="flex justify-between items-start mb-2">
+                                        <div className="flex flex-col md:flex-row justify-between items-start mb-2 gap-1 md:gap-0">
                                             <div>
-                                                <h3 className="text-2xl font-bold uppercase leading-none dark:text-gray-100">{job.company}</h3>
-                                                <p className="text-lg italic font-sans text-gray-700 dark:text-gray-400">{job.role}</p>
+                                                <h3 className="text-xl md:text-2xl font-bold uppercase leading-none dark:text-gray-100">{job.company}</h3>
+                                                <p className="text-base md:text-lg italic font-sans text-gray-700 dark:text-gray-400">{job.role}</p>
                                             </div>
-                                            <span className="text-xs font-sans font-bold text-gray-500 dark:text-gray-500 uppercase">{job.period}</span>
+                                            <span className="text-[10px] md:text-xs font-sans font-bold text-gray-500 dark:text-gray-500 uppercase">{job.period}</span>
                                         </div>
 
                                         <ul className="mt-4 space-y-2 text-sm font-sans leading-relaxed text-justify">
@@ -137,7 +147,7 @@ const Experiences: React.FC = () => {
                                                         className="group/img relative border border-black dark:border-gray-700 p-1 overflow-hidden bg-white dark:bg-[#1A1A1A] cursor-zoom-in"
                                                         onClick={() => setSelectedImage(img)}
                                                     >
-                                                        <img src={img.url} alt={img.caption} className="w-full h-48 object-cover transition-all duration-500 opacity-90 dark:opacity-80 grayscale hover:grayscale-0" />
+                                                        <img src={img.url} alt={img.caption} className="w-full h-48 object-cover transition-all duration-500 opacity-90 dark:opacity-80 grayscale md:hover:grayscale-0" />
                                                         <div className="mt-1 text-[9px] uppercase font-sans font-bold flex justify-between dark:text-gray-400">
                                                             <span>Exhibit {index}.{i + 1}</span>
                                                             <span>{img.caption}</span>
